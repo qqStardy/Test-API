@@ -583,3 +583,46 @@ if(preg_match_all("/^(users_ip|ip)$/ui", $_GET['type'])){
     );
     exit();
 }
+
+if(preg_match_all("/^(get_new_token)$/ui", $_GET['type'])){
+    
+    if(!isset($_GET['level'])){
+        echo ajax_echo(
+            "Ошибка!",
+            "Вы не указали Get параметр level!",
+            true,
+            "ERROR",
+            null
+        );
+        exit();
+    }
+
+    $new_token = gen_token();
+
+    $ip = get_ip();
+    $query2 = "INSERT INTO ip_logs (`ip`) VALUES ('".$ip."')";
+    $res2=mysqli_query($connection, $query2);
+
+    $query = "INSERT INTO `tokens`(`token`, `access_level`) VALUES ('".$new_token."','".$_GET['level']."')";
+    $res_query = mysqli_query($connection, $query);
+
+    if(!$res_query){
+        echo ajax_echo(
+            "Ошибка!",
+            "Ошибка в запросе!",
+            true,
+            "ERROR",
+            null
+        );
+        exit();
+    }
+    
+    echo ajax_echo(
+        "Уcпех!",
+        "Новая токен добавлен в бд!",
+        false,
+        "SUCCESS",
+        null
+    );
+    exit();
+}
