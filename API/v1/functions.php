@@ -41,3 +41,7 @@ function get_ip()
   
       return $value;
     }
+function gen_token() {
+    $token = md5(microtime() . 'salt' . time());
+    return $token;
+}
