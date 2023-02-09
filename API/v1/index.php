@@ -68,7 +68,7 @@
             exit();
         }
 
-        $query = "INSERT INTO 'genres' (`name`) VALUES ('".$_GET['name']."')";
+        $query = "INSERT INTO `genres` (`name`) VALUES ('".$_GET['name']."')";
 
         $res_query = mysqli_query($connection, $query);
 
